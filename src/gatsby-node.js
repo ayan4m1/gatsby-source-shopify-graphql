@@ -101,7 +101,7 @@ query {
           }
         }
         note
-        originalTotalDutiesSet {}
+        originalTotalDutiesSet {
           shopMoney {
             amount
             currencyCode
