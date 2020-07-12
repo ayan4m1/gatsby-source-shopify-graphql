@@ -18,7 +18,7 @@
   },
   "peerDependencies": {
     "gatsby": "^2.24.1",
-    "node-fetch": "6.x"
+    "node-fetch": "2.x"
   },
   "dependencies": {
     "@babel/runtime": "^7.10.4",
