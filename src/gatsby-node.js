@@ -241,8 +241,25 @@ query {
                 vendor
               }
               variant {
+                availableForSale
+                barcode
+                compareAtPrice
+                createdAt
+                displayName
                 id
+                inventoryPolicy
+                inventoryQuantity
+                legacyResourceId
+                position
                 price
+                sku
+                storefrontId
+                taxCode
+                taxable
+                title
+                updatedAt
+                weight
+                weightUnit
               }
             }
           }
@@ -302,25 +319,29 @@ query {
         tracksInventory
         updatedAt
         variants(first: 50) {
-          availableForSale
-          barcode
-          compareAtPrice
-          createdAt
-          displayName
-          id
-          inventoryPolicy
-          inventoryQuantity
-          legacyResourceId
-          position
-          price
-          sku
-          storefrontId
-          taxCode
-          taxable
-          title
-          updatedAt
-          weight
-          weightUnit
+          edges {
+            node {
+              availableForSale
+              barcode
+              compareAtPrice
+              createdAt
+              displayName
+              id
+              inventoryPolicy
+              inventoryQuantity
+              legacyResourceId
+              position
+              price
+              sku
+              storefrontId
+              taxCode
+              taxable
+              title
+              updatedAt
+              weight
+              weightUnit
+            }
+          }
         }
         vendor
       }
