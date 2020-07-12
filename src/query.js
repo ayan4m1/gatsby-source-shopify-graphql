@@ -43,7 +43,7 @@ const parseParentChild = (data, attributes) => {
   return result;
 };
 
-const createRequest = async (client, query) => {
+const createRequest = async (client, query, reporter) => {
   const queryText = `
   mutation {
     bulkOperationRunQuery(
@@ -69,12 +69,11 @@ const createRequest = async (client, query) => {
 
     return bulkOperationRunQuery;
   } catch (error) {
-    // eslint-disable-next-line
-    console.error(error);
+    reporter.panicOnBuild(error);
   }
 };
 
-const pollRequest = async (client) => {
+const pollRequest = async (client, reporter) => {
   const queryText = `
   query {
     currentBulkOperation {
@@ -97,12 +96,11 @@ const pollRequest = async (client) => {
 
     return currentBulkOperation;
   } catch (error) {
-    // eslint-disable-next-line
-    console.error(error);
+    reporter.panicOnBuild(error);
   }
 };
 
-export const createQuery = async (query, types, options) => {
+export const createQuery = async (query, types, options, reporter) => {
   const { shopName, apiPassword } = options;
   const url = `https://${shopName}.myshopify.com/admin/api/2020-07/graphql.json`;
   const client = new GraphQLClient(url, {
@@ -110,10 +108,9 @@ export const createQuery = async (query, types, options) => {
       'X-Shopify-Access-Token': apiPassword
     }
   });
-  const creationResult = await createRequest(client, query);
+  const creationResult = await createRequest(client, query, reporter);
 
-  // eslint-disable-next-line
-  console.log(
+  reporter.info(
     `Query creation status is ${creationResult.bulkOperation.status}`
   );
 
@@ -123,10 +120,9 @@ export const createQuery = async (query, types, options) => {
 
   return new Promise((resolve, reject) => {
     const interval = setInterval(async () => {
-      const pollResult = await pollRequest(client);
+      const pollResult = await pollRequest(client, reporter);
 
-      // eslint-disable-next-line
-      console.log(`Query poll status is ${pollResult.status}`);
+      reporter.info(`Query poll status is ${pollResult.status}`);
 
       if (pollResult.status === 'COMPLETED') {
         const result = await axios(pollResult.url);

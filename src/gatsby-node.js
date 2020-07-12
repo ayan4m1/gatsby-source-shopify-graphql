@@ -78,7 +78,8 @@ exports.sourceNodes = async ({ actions, reporter }, options) => {
       {
         LineItem: 'lineItems'
       },
-      options
+      options,
+      reporter
     );
 
     reporter.info(
@@ -91,7 +92,8 @@ exports.sourceNodes = async ({ actions, reporter }, options) => {
       {
         Variant: 'variants'
       },
-      options
+      options,
+      reporter
     );
 
     reporter.info(
