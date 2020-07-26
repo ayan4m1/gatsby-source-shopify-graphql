@@ -5,7 +5,8 @@ export const types = {
   order: 'Order',
   product: 'Product',
   variant: 'Variant',
-  lineItem: 'LineItem'
+  lineItem: 'LineItem',
+  metafield: 'Metafield'
 };
 
 const { createNodeFactory } = createNodeHelpers({

@@ -286,6 +286,19 @@ query {
         isGiftCard
         legacyResourceId
         mediaCount
+        metafields(first: 100) {
+          edges {
+            node {
+              id
+              key
+              legacyResourceId
+              namespace
+              updatedAt
+              value
+              valueType
+            }
+          }
+        }
         onlineStorePreviewUrl
         onlineStoreUrl
         options {
@@ -375,6 +388,7 @@ exports.sourceNodes = async ({ actions, reporter }, options) => {
       const products = await createQuery(
         productsQuery,
         {
+          Metafield: 'metafields',
           Variant: 'variants'
         },
         options,
