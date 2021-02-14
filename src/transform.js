@@ -1,24 +1,16 @@
-import createNodeHelpers from 'gatsby-node-helpers';
+import { createNodeHelpers } from 'gatsby-node-helpers';
 
-export const types = {
-  customer: 'Customer',
-  order: 'Order',
-  product: 'Product',
-  variant: 'Variant',
-  lineItem: 'LineItem',
-  metafield: 'Metafield'
+import { types } from './types';
+
+export const getTransforms = (createNodeId, createContentDigest) => {
+  const { createNodeFactory } = createNodeHelpers({
+    typePrefix: 'Shopify',
+    createNodeId,
+    createContentDigest
+  });
+
+  return {
+    [types.order]: createNodeFactory(types.order),
+    [types.product]: createNodeFactory(types.product)
+  };
 };
-
-const { createNodeFactory } = createNodeHelpers({
-  typePrefix: 'Shopify'
-});
-
-export const transformOrderNode = createNodeFactory(
-  types.order,
-  (order) => order
-);
-
-export const transformProductNode = createNodeFactory(
-  types.product,
-  (product) => product
-);

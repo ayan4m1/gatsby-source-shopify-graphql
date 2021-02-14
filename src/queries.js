@@ -1,4 +1,6 @@
-export const ordersQuery = `
+import { types } from './types';
+
+const order = `
 query {
   orders(first: 100) {
     edges {
@@ -267,7 +269,7 @@ query {
 }
 `;
 
-export const productsQuery = `
+const product = `
 query {
   products(first: 100) {
     edges {
@@ -359,3 +361,8 @@ query {
   }
 }
 `;
+
+export default {
+  [types.order]: order,
+  [types.product]: product
+};

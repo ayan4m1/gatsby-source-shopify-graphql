@@ -1,43 +1,34 @@
-import { transformOrderNode, transformProductNode } from './transform';
 import { createQuery } from './query';
-import { ordersQuery, productsQuery } from './queries';
+import queries from './queries';
+import { getTransforms } from './transform';
+import { types, typeMappings } from './types';
 
-exports.sourceNodes = async ({ actions, reporter }, options) => {
+const packageName = 'gatsby-source-shopify-graphql';
+const fetchTypes = [types.order, types.product];
+
+exports.sourceNodes = async (
+  { actions, reporter, createNodeId, createContentDigest },
+  options
+) => {
   try {
     const { createNode } = actions;
-    const { queries } = options;
+    const { queries: queryOptions } = options;
+    const transforms = getTransforms(createNodeId, createContentDigest);
 
-    if (!queries || queries.orders) {
-      const orders = await createQuery(
-        ordersQuery,
-        {
-          LineItem: 'lineItems'
-        },
-        options,
-        reporter
-      );
+    for (const type of fetchTypes) {
+      if (!queryOptions || Boolean(queryOptions[type])) {
+        reporter.info(`${packageName} fetching ${type}s`);
+        const transform = transforms[type];
+        const results = await createQuery(
+          queries[type],
+          typeMappings[type],
+          options,
+          reporter
+        );
 
-      reporter.info(
-        `gatsby-source-shopify-graphql fetched ${orders.length} orders`
-      );
-      orders.forEach((order) => createNode(transformOrderNode(order)));
-    }
-
-    if (!queries || queries.products) {
-      const products = await createQuery(
-        productsQuery,
-        {
-          Metafield: 'metafields',
-          Variant: 'variants'
-        },
-        options,
-        reporter
-      );
-
-      reporter.info(
-        `gatsby-source-shopify-graphql fetched ${products.length} products`
-      );
-      products.forEach((product) => createNode(transformProductNode(product)));
+        reporter.info(`${packageName} fetched ${results.length} ${type}s`);
+        results.forEach((result) => createNode(transform(result)));
+      }
     }
   } catch (error) {
     reporter.panicOnBuild(error);
