@@ -26,8 +26,12 @@ exports.sourceNodes = async (
           reporter
         );
 
-        reporter.info(`${packageName} fetched ${results.length} ${type}s`);
-        results.forEach((result) => createNode(transform(result)));
+        if (Array.isArray(results)) {
+          reporter.info(`${packageName} fetched ${results.length} ${type}s`);
+          results.forEach((result) => createNode(transform(result)));
+        } else {
+          reporter.error(`${packageName} failed to fetch ${type}s`);
+        }
       }
     }
   } catch (error) {
