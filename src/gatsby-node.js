@@ -4,7 +4,7 @@ import { getTransforms } from './transform';
 import { types, typeMappings } from './types';
 
 const packageName = 'gatsby-source-shopify-graphql';
-const fetchTypes = [types.order, types.product];
+const fetchTypes = [types.customer, types.order, types.product];
 
 exports.sourceNodes = async (
   { actions, reporter, createNodeId, createContentDigest },

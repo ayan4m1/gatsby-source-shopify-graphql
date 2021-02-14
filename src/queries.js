@@ -1,5 +1,99 @@
 import { types } from './types';
 
+const customer = `
+query {
+  customers(first: 100) {
+    edges {
+      node {
+        acceptsMarketing
+        acceptsMarketingUpdatedAt
+        addresses(first: 10) {
+          address1
+          address2
+          city
+          company
+          country
+          countryCodeV2
+          firstName
+          id
+          lastName
+          latitude
+          longitude
+          name
+          phone
+          province
+          provinceCode
+          zip
+        }
+        averageOrderAmountV2 {
+          amount
+          currencyCode
+        }
+        canDelete
+        createdAt
+        defaultAddress {
+          address1
+          address2
+          city
+          company
+          country
+          countryCodeV2
+          firstName
+          id
+          lastName
+          latitude
+          longitude
+          name
+          phone
+          province
+          provinceCode
+          zip
+        }
+        displayName
+        firstName
+        hasNote
+        hasTimelineComment
+        id
+        lastName
+        legacyResourceId
+        lifetimeDuration
+        locale
+        marketingOptInLevel
+        metafields(first: 100) {
+          edges {
+            node {
+              id
+              key
+              legacyResourceId
+              namespace
+              updatedAt
+              value
+              valueType
+            }
+          }
+        }
+        multipassIdentifier
+        note
+        ordersCount
+        phone
+        state
+        tags
+        taxExempt
+        taxExemptions
+        totalSpent
+        totalSpentV2 {
+          amount
+          currencyCode
+        }
+        updatedAt
+        validEmailAddress
+        verifiedEmail
+      }
+    }
+  }
+}
+`;
+
 const order = `
 query {
   orders(first: 100) {
@@ -363,6 +457,7 @@ query {
 `;
 
 export default {
+  [types.customer]: customer,
   [types.order]: order,
   [types.product]: product
 };
