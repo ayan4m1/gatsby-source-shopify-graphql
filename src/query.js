@@ -110,17 +110,21 @@ export const createQuery = async (query, types, options, reporter) => {
   });
   const creationResult = await createRequest(client, query, reporter);
 
-  if (!creationResult.bulkOperation) {
+  if (
+    !creationResult.bulkOperation ||
+    creationResult.bulkOperation.status !== 'CREATED'
+  ) {
+    if (creationResult.userErrors) {
+      for (const error of creationResult.userErrors) {
+        reporter.error(error.message);
+      }
+    }
     return reporter.panicOnBuild(new Error('Query creation failed!'));
   }
 
   reporter.info(
     `Query creation status is ${creationResult.bulkOperation.status}`
   );
-
-  if (creationResult.bulkOperation.status !== 'CREATED') {
-    return reporter.panicOnBuild(new Error('Query creation failed!'));
-  }
 
   return new Promise((resolve, reject) => {
     const interval = setInterval(async () => {
