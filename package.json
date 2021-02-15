@@ -1,6 +1,6 @@
 {
   "name": "gatsby-source-shopify-graphql",
-  "version": "0.1.3",
+  "version": "0.2.0",
   "description": "Gatsby source plugin for pulling data from Shopify GraphQL API",
   "author": "ayan4m1 <andrew@bulletlogic.com>",
   "license": "MIT",
