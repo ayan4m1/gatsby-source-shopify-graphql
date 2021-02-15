@@ -186,6 +186,19 @@ query {
         id
         legacyResourceId
         merchantEditable
+        metafields(first: 100) {
+          edges {
+            node {
+              id
+              key
+              legacyResourceId
+              namespace
+              updatedAt
+              value
+              valueType
+            }
+          }
+        }
         name
         netPaymentSet {
           shopMoney {

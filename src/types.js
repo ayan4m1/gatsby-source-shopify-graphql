@@ -24,6 +24,6 @@ const composeTypes = (...typeNames) =>
 
 export const typeMappings = {
   [types.customer]: composeTypes(types.metafield),
-  [types.order]: composeTypes(types.lineItem),
+  [types.order]: composeTypes(types.metafield, types.lineItem),
   [types.product]: composeTypes(types.metafield, types.variant)
 };
